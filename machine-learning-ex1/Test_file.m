@@ -1,0 +1,1 @@
+theta =  [ 1; 2 ];X = [ 4 5 ; 6 7];y = [ 8 ; 9 ];m = length(y); j_temp= 0;J = 0;for i = 1 : m;  h_0 = (theta' * X(i, :)' );  h_0_a(i) = h_0;  j_temp = j_temp +(h_0 -y(i))^2; endforJ = (1 / (2 * m ))* j_temph_0_ah_0_neu = (X*theta)

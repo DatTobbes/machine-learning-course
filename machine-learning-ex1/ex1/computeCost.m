@@ -14,12 +14,11 @@ j_temp = 0;
 %               You should set J to the cost.
 
 for i = 1 : m;
-  pred = (theta' * X(i, :)' );
-  j_temp = j_temp +(pred -y(i))^2; 
+  h_0 = (theta' * X(i, :)' );
+  j_temp = j_temp +(h_0 -y(i))^2; 
 endfor
 
-J = 1/(2*m) * sum((X*theta - y).^2);
-%J = (1 / (2 * m ))* j_temp;
+J = (1 / (2 * m ))* j_temp;
 
 
 % =========================================================================

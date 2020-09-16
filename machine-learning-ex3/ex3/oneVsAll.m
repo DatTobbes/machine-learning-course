@@ -13,11 +13,11 @@ n = size(X, 2);
 
 % You need to return the following variables correctly 
 all_theta = zeros(num_labels, n + 1);
-
+all_theta_neu = zeros(num_labels, n + 1);
 % Add ones to the X data matrix
 X = [ones(m, 1) X];
 
-% ====================== YOUR CODE HERE ======================
+% ====================== YOUR CODE HERE ======================‚
 % Instructions: You should complete the following code to train num_labels
 %               logistic regression classifiers with regularization
 %               parameter lambda. 
@@ -46,13 +46,19 @@ X = [ones(m, 1) X];
 %     % This function will return theta and the cost 
 %     [theta] = ...
 %         fmincg (@(t)(lrCostFunction(t, X, (y == c), lambda)), ...
-%                 initial_theta, options);
+%                 initial_theta, options);‚
 %
 
+initial_theta = zeros(n + 1, 1);
 
+options = optimset('GradObj', 'on', 'MaxIter', 50);
 
-
-
+%i corresponds to the class lbl in num_labels‚
+for i = 1:num_labels
+    %create a binary vector that corresponds to the classes
+    lbls = y == i;
+    %some build in magic....
+    all_theta(i,:) = fmincg (@(t)(lrCostFunction(t, X, lbls, lambda)), initial_theta, options);
 
 
 

@@ -39,6 +39,35 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+
+%Layer 0 Input-Layer
+a_1 = [ones(m, 1) X];
+
+%Layer 1 HiddenLayer
+z_2 = a_1 *Theta1';
+a_2 = sigmoid(z_2);
+
+%Layer 2 Output-Layer
+a_2 = [ones(m, 1) a_2];
+z_3 = a_2 * Theta2';
+h_0 = sigmoid(z_3); 
+
+
+oneHot = zeros(m,num_labels);
+for i=1:m
+  oneHot(i, y(i)) = 1;
+endfor
+
+J = 1/m * sum(sum(-oneHot .* log(h_0) - (1-oneHot) .* log(1-h_0)));
+
+%reg = (lambda /(2 *m)) * (sum(sum(Theta1(:,2:end) .^2)) + sum(sum(Theta2(:,2:end) .^2)));
+
+t_1  = Theta1(:,2:end) ;
+t_2 = Theta2(:,2:end);
+reg = (lambda /(2 *m)) * (sum(t_1(:).^2) + sum(t_2(:) .^2));
+
+J = J + reg;
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -54,6 +83,15 @@ Theta2_grad = zeros(size(Theta2));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+delta_3 = h_0 - oneHot;
+delta_2 = delta_3 * Theta2(:,2:end) .* sigmoidGradient(z_2);
+
+Theta1_grad += 1/m * (a_1' * delta_2)';
+Theta2_grad += 1/m * (a_2' * delta_3)';
+
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -62,22 +100,8 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) .+ (lambda/m)*Theta1(:,2:end);
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) .+ (lambda/m)*Theta2(:,2:end);
 
 
 % -------------------------------------------------------------

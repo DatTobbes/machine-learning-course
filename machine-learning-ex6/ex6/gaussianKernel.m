@@ -15,8 +15,8 @@ sim = 0;
 %               sigma
 %
 %
-
-
+vec_length = - sum (( x1 - x2).^2);
+sim  = exp(vec_length / (2*sigma^2));
 
 
 

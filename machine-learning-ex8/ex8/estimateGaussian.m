@@ -22,12 +22,17 @@ sigma2 = zeros(n, 1);
 %
 
 
+#mu = sum(X ,1) / m;
+mu= mean(X);
 
+for i = 1:n
+   sigma(i) = 1/m * (sum((X(:, i) - mu(i)).^2));
 
+#won't work because var use 1/m+1 instead of 1/m   
+#sigma2 = var(X) 
 
-
-
-
+#thats why u have to use the verctorized implementation for the excerixe 
+sigma2 = mean((X - mu).^2);
 
 
 % =============================================================
